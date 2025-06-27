@@ -1,16 +1,31 @@
+# UI Component Library (shadcn/ui components)
+client/src/components/ui/*.tsx
+
+# Node modules
 node_modules/
-.replit/
-.cache/
-.local/
-*.log
-*.tar.gz
-*.jpg
-*.jpeg
-*.png
-*.mp4
-*.mp3
-*.mov
-attached_assets/
-build/
+
+# Build files
 dist/
-.next/
+build/
+
+# Test files
+**/*.test.tsx
+**/*.test.ts
+**/*.spec.tsx
+**/*.spec.ts
+
+# Duplicate/test files
+client/src/pages/audio-hug-test.tsx
+client/src/pages/audio-hug-test-fork.tsx
+client/src/pages/audio-hug-backup.tsx
+
+# Config files
+*.config.js
+*.config.ts
+tsconfig.json
+
+# Package files
+package-lock.json
+
+# Large generated files
+*.lock
