@@ -1,0 +1,16 @@
+node_modules/
+.replit/
+.cache/
+.local/
+*.log
+*.tar.gz
+*.jpg
+*.jpeg
+*.png
+*.mp4
+*.mp3
+*.mov
+attached_assets/
+build/
+dist/
+.next/
