@@ -5,7 +5,7 @@ import { auth } from "@/lib/firebase";
 import { useAuth } from "@/hooks/useAuth";
 import { getUserCredits, addUserCredits } from "@/services/creditService";
 import AuthModal from "@/components/auth/AuthModal";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Plus, Eye, Headphones, User, LogOut, Coins } from "lucide-react";
 
 export default function HomePage() {
   const { user } = useAuth();
@@ -38,87 +38,130 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center text-white p-6 bg-gradient-to-br from-purple-600 to-blue-800">
-      <div className="text-center mb-12">
-        <h1 className="text-5xl font-bold mb-4">SoulLift Audio</h1>
-        <p className="text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
-          Emotional Intelligence meets AI — Craft your perfect Soul Hug
-        </p>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">
+      <div className="container mx-auto px-6 py-12">
+        
+        {/* Header */}
+        <div className="text-center mb-16">
+          <h1 className="text-6xl font-bold mb-6 bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent">
+            SoulLift Audio
+          </h1>
+          <p className="text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
+            Emotional Intelligence meets AI — Craft your perfect Soul Hug with advanced personalization
+          </p>
+        </div>
 
-      <div className="space-y-4 w-full max-w-sm">
-        <Link 
-          href="/creative-flow"
-          className="block bg-white/10 backdrop-blur-sm rounded-lg px-6 py-4 text-center hover:bg-white/20 transition-all duration-200 border border-white/20 hover:border-white/40"
-        >
-          <div className="font-semibold text-lg mb-2">Create New Hug</div>
-          <div className="text-sm text-white/80">Start your creative journey</div>
-        </Link>
+        {/* Main Actions */}
+        <div className="max-w-2xl mx-auto space-y-6 mb-12">
+          
+          <Link 
+            href="/creative-flow"
+            className="group block bg-white/5 backdrop-blur-xl rounded-2xl p-8 border border-white/10 hover:border-white/20 transition-all duration-300 hover:bg-white/10"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-blue-500 rounded-xl flex items-center justify-center">
+                  <Plus className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-1">Create New Soul Hug</h3>
+                  <p className="text-slate-400">Start your creative journey with AI assistance</p>
+                </div>
+              </div>
+              <ArrowRight className="w-5 h-5 text-slate-400 group-hover:text-white group-hover:translate-x-1 transition-all" />
+            </div>
+          </Link>
 
-        <Link 
-          href="/my-hugs"
-          className="block bg-white/10 backdrop-blur-sm rounded-lg px-6 py-4 text-center hover:bg-white/20 transition-all duration-200 border border-white/20 hover:border-white/40"
-        >
-          <div className="font-semibold text-lg mb-2">View My Hugs</div>
-          <div className="text-sm text-white/80">See your saved creations</div>
-        </Link>
+          <Link 
+            href="/my-hugs"
+            className="group block bg-white/5 backdrop-blur-xl rounded-2xl p-8 border border-white/10 hover:border-white/20 transition-all duration-300 hover:bg-white/10"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-teal-500 rounded-xl flex items-center justify-center">
+                  <Eye className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-1">View My Soul Hugs</h3>
+                  <p className="text-slate-400">Access your saved creations and memories</p>
+                </div>
+              </div>
+              <ArrowRight className="w-5 h-5 text-slate-400 group-hover:text-white group-hover:translate-x-1 transition-all" />
+            </div>
+          </Link>
 
-        <Link 
-          href="/audio-hug"
-          className="block bg-green-500/20 backdrop-blur-sm rounded-lg px-6 py-4 text-center hover:bg-green-500/30 transition-all duration-200 border border-green-300/40 hover:border-green-300/60"
-        >
-          <div className="font-semibold text-lg mb-2">Audio Hug</div>
-          <div className="text-sm text-white/80">Explore audio features</div>
-        </Link>
+          <Link 
+            href="/audio-hug"
+            className="group block bg-gradient-to-r from-orange-500/10 to-red-500/10 backdrop-blur-xl rounded-2xl p-8 border border-orange-400/20 hover:border-orange-400/40 transition-all duration-300 hover:from-orange-500/20 hover:to-red-500/20"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center">
+                  <Headphones className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-1">Audio Features</h3>
+                  <p className="text-slate-400">Voice recording, AI narration, and music mixing</p>
+                </div>
+              </div>
+              <ArrowRight className="w-5 h-5 text-slate-400 group-hover:text-white group-hover:translate-x-1 transition-all" />
+            </div>
+          </Link>
+        </div>
 
+        {/* User Section */}
         {user ? (
-          <div className="space-y-3">
-            <div className="text-center text-white/70 text-sm">
-              Welcome back, {user.displayName || user.email?.split('@')[0]}!
+          <div className="max-w-md mx-auto space-y-4">
+            
+            {/* Welcome Message */}
+            <div className="text-center bg-white/5 backdrop-blur-xl rounded-xl px-6 py-4 border border-white/10">
+              <div className="flex items-center justify-center space-x-2 mb-2">
+                <User className="w-4 h-4 text-slate-400" />
+                <span className="text-slate-300">Welcome back,</span>
+              </div>
+              <span className="font-semibold text-white">
+                {user.displayName || user.email?.split('@')[0]}
+              </span>
             </div>
             
             {/* Credits Display */}
-            <div className="text-center bg-white/10 backdrop-blur-sm rounded-lg px-4 py-3 border border-white/20">
-              <div className="flex items-center justify-center gap-2">
-                <span className="text-white/80 text-sm">Your credits:</span>
-                <div className="flex items-center gap-1">
-                  <span className="text-xl font-bold text-white">{credits}</span>
-                  <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
+            <div className="bg-gradient-to-r from-yellow-500/10 to-amber-500/10 backdrop-blur-xl rounded-xl px-6 py-4 border border-yellow-400/20">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <Coins className="w-5 h-5 text-yellow-400" />
+                  <div>
+                    <p className="text-sm text-slate-300">Available Credits</p>
+                    <p className="text-2xl font-bold text-white">{credits}</p>
+                  </div>
                 </div>
+                <button
+                  onClick={handleEarnCredits}
+                  className="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-black font-medium rounded-lg transition-colors text-sm"
+                >
+                  Earn More
+                </button>
               </div>
-              <button
-                onClick={handleEarnCredits}
-                className="mt-2 text-xs bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded transition-colors"
-              >
-                Earn 2 Credits (Demo)
-              </button>
             </div>
 
+            {/* Logout Button */}
             <button
               onClick={handleLogout}
-              className="w-full bg-red-600 hover:bg-red-700 text-white rounded-lg px-6 py-4 transition-all duration-200 font-semibold"
+              className="w-full flex items-center justify-center space-x-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 rounded-xl px-6 py-4 border border-red-500/20 hover:border-red-500/40 transition-all duration-200"
             >
-              Log Out
+              <LogOut className="w-4 h-4" />
+              <span>Sign Out</span>
             </button>
           </div>
         ) : (
-          <button
-            onClick={() => setAuthModalOpen(true)}
-            className="block w-full text-center underline text-white/70 hover:text-white transition-colors py-3"
-          >
-            Log In or Sign Up
-          </button>
+          <div className="text-center">
+            <button
+              onClick={() => setAuthModalOpen(true)}
+              className="px-8 py-3 bg-white/10 hover:bg-white/20 text-white rounded-xl border border-white/20 hover:border-white/40 transition-all duration-200 font-medium"
+            >
+              Sign In or Create Account
+            </button>
+          </div>
         )}
-      </div>
-
-      {/* Navigation */}
-      <div className="flex justify-end w-full max-w-sm mt-8">
-        <Link 
-          href="/creative-flow"
-          className="flex items-center gap-2 text-white/70 hover:text-white transition-colors text-sm"
-        >
-          Next <ArrowRight className="w-4 h-4" />
-        </Link>
       </div>
 
       <AuthModal 

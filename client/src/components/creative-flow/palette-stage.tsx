@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import type { CreativeFlowSession } from "@shared/schema";
+import { Lightbulb, Layers, Heart, Plus } from "lucide-react";
 
 interface PaletteStageProps {
   session: CreativeFlowSession;
@@ -25,25 +26,31 @@ export default function PaletteStage({
   const descriptors = session.descriptors || [];
 
   return (
-    <div className="w-full max-w-6xl m-auto glass-morphism rounded-2xl shadow-2xl p-8 sm:p-12 fade-in">
-      <div className="text-center mb-8">
-        <div className="mb-6">
-          <i className="fas fa-search text-4xl text-purple-500 mb-4"></i>
-          <h1 className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-            GATHER YOUR INGREDIENTS
-          </h1>
+    <div className="w-full max-w-7xl mx-auto bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl p-8 sm:p-12">
+      
+      {/* Header */}
+      <div className="text-center mb-12">
+        <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
+          <Lightbulb className="w-8 h-8 text-white" />
         </div>
+        <h1 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-slate-800 to-purple-600 bg-clip-text text-transparent mb-4">
+          Gather Your Ingredients
+        </h1>
+        <p className="text-slate-600 text-lg max-w-2xl mx-auto leading-relaxed">
+          Click to write a story • Drag to add as ingredient
+        </p>
       </div>
       
-      <div className="glass-secondary p-6 rounded-lg border border-white/50 space-y-8">
+      <div className="space-y-12">
 
+        {/* AI Generated Prompts */}
         <div className="space-y-6">
-          <h2 className="text-2xl font-bold text-center text-slate-800">
-            Click to write a story • Drag to add as ingredient
+          <h2 className="text-2xl font-bold text-center text-slate-800 flex items-center justify-center gap-3">
+            <Lightbulb className="w-6 h-6 text-purple-500" />
+            Story Prompts
           </h2>
           
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {aiPrompts.map((prompt) => (
               <div
                 key={prompt.id}
@@ -54,35 +61,38 @@ export default function PaletteStage({
                   e.dataTransfer.setData('application/json', JSON.stringify({
                     type: 'prompt',
                     prompt: prompt.text,
-                    content: '' // Empty content to avoid duplication
+                    content: ''
                   }));
                 }}
-                className="prompt-card bg-white/90 hover:bg-white border border-slate-200/80 hover:border-slate-300 p-4 rounded-lg shadow-sm hover:shadow-md cursor-grab active:cursor-grabbing transition-all duration-200 hover:scale-105"
+                className="group bg-white/90 hover:bg-white border border-slate-200 hover:border-purple-300 p-6 rounded-xl shadow-sm hover:shadow-lg cursor-pointer transition-all duration-200 hover:scale-105"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                    <span className="text-2xl">{prompt.icon}</span>
+                    <div className="w-8 h-8 bg-gradient-to-r from-purple-400 to-pink-400 rounded-lg flex items-center justify-center">
+                      <Plus className="w-4 h-4 text-white" />
+                    </div>
                     <span className="text-slate-700 font-medium">{prompt.text}</span>
                   </div>
-                  <div className="text-xs text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity">
-                    Click to write • Drag to add
-                  </div>
+                </div>
+                <div className="mt-3 text-xs text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                  Click to write • Drag to add
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        
-
-        <div className="w-full flex flex-col lg:flex-row gap-8">
-          <div className="lg:w-1/3">
-            <h2 className="text-2xl font-bold mb-4 text-center text-slate-800">
-              <i className="fas fa-layer-group text-indigo-500 mr-3"></i>
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          
+          {/* Ingredients Collection */}
+          <div>
+            <h2 className="text-2xl font-bold mb-6 text-slate-800 flex items-center gap-3">
+              <Layers className="w-6 h-6 text-blue-500" />
               Your Ingredients
             </h2>
             <div 
-              className="bg-slate-100/70 p-4 rounded-lg border-2 border-dashed border-slate-300/80 min-h-[20rem] relative transition-colors"
+              className="bg-slate-50 border-2 border-dashed border-slate-300 rounded-xl p-6 min-h-80 transition-colors"
               onDrop={(e) => {
                 e.preventDefault();
                 const jsonData = e.dataTransfer.getData('application/json');
@@ -90,7 +100,6 @@ export default function PaletteStage({
                   try {
                     const data = JSON.parse(jsonData);
                     if (data.type === 'prompt') {
-                      // Add prompt directly as an ingredient
                       onAddIngredient({
                         prompt: data.prompt,
                         content: data.content
@@ -103,52 +112,54 @@ export default function PaletteStage({
               }}
               onDragOver={(e) => {
                 e.preventDefault();
-                e.currentTarget.classList.add('border-indigo-400', 'bg-indigo-50/50');
+                e.currentTarget.classList.add('border-blue-400', 'bg-blue-50');
               }}
               onDragLeave={(e) => {
-                e.currentTarget.classList.remove('border-indigo-400', 'bg-indigo-50/50');
+                e.currentTarget.classList.remove('border-blue-400', 'bg-blue-50');
               }}
             >
-              <div className="custom-scrollbar h-60 overflow-y-auto space-y-3 pr-2">
+              <div className="space-y-4 max-h-64 overflow-y-auto">
                 {ingredients.length === 0 ? (
-                  <p className="text-slate-500 text-center mt-16">
-                    Your stories and dragged prompts will appear here.
-                  </p>
+                  <div className="text-center py-12">
+                    <Layers className="w-12 h-12 text-slate-300 mx-auto mb-4" />
+                    <p className="text-slate-500 font-medium">Your stories will appear here</p>
+                    <p className="text-slate-400 text-sm">Drag prompts or write your own stories</p>
+                  </div>
                 ) : (
                   ingredients.map((ingredient) => (
                     <div
                       key={ingredient.id}
-                      className="ingredient-card bg-white/80 p-4 rounded-lg border border-slate-200 shadow-sm"
-                      draggable="true"
+                      className="bg-white rounded-lg p-4 border border-slate-200 shadow-sm"
                     >
-                      <div className="flex items-start space-x-3">
-                        <i className="fas fa-lightbulb text-yellow-400 mt-1"></i>
+                      <div className="flex items-start justify-between">
                         <div className="flex-1">
-                          <h4 className="font-medium text-slate-800 mb-1">{ingredient.prompt}</h4>
-                          <p className="text-sm text-slate-600">{ingredient.content}</p>
-                          <button
-                            className="text-xs text-red-500 hover:text-red-700 mt-2"
-                            onClick={() => onRemoveIngredient(ingredient.id)}
-                          >
-                            <i className="fas fa-trash mr-1"></i>Remove
-                          </button>
+                          <h4 className="font-semibold text-slate-800 mb-2">{ingredient.prompt}</h4>
+                          <p className="text-sm text-slate-600 leading-relaxed">{ingredient.content}</p>
                         </div>
+                        <button
+                          className="text-red-400 hover:text-red-600 ml-4 p-1"
+                          onClick={() => onRemoveIngredient(ingredient.id)}
+                        >
+                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                          </svg>
+                        </button>
                       </div>
                     </div>
                   ))
                 )}
                 
                 {descriptors.length > 0 && (
-                  <div className="ingredient-card bg-white/80 p-4 rounded-lg border border-slate-200 shadow-sm">
+                  <div className="bg-white rounded-lg p-4 border border-slate-200 shadow-sm">
                     <div className="flex items-start space-x-3">
-                      <i className="fas fa-heart text-pink-400 mt-1"></i>
+                      <Heart className="w-5 h-5 text-pink-500 mt-0.5" />
                       <div className="flex-1">
-                        <h4 className="font-medium text-slate-800 mb-1">Selected descriptors</h4>
+                        <h4 className="font-semibold text-slate-800 mb-2">Selected descriptors</h4>
                         <div className="flex flex-wrap gap-2">
                           {descriptors.map((descriptor, index) => (
                             <span
                               key={index}
-                              className="inline-flex px-3 py-1.5 bg-indigo-100 text-indigo-700 rounded-full text-xs font-medium whitespace-nowrap min-w-fit"
+                              className="inline-flex px-3 py-1.5 bg-gradient-to-r from-blue-100 to-purple-100 text-blue-700 rounded-full text-xs font-medium"
                             >
                               {descriptor}
                             </span>
@@ -160,22 +171,22 @@ export default function PaletteStage({
                 )}
               </div>
               
-              <div className="absolute bottom-4 right-4">
-                <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800">
-                  <i className="fas fa-layer-group mr-1"></i>
-                  {ingredients.length + (descriptors.length > 0 ? 1 : 0)} ingredients
+              <div className="flex justify-between items-center mt-4 pt-4 border-t border-slate-200">
+                <span className="text-sm text-slate-500">
+                  {ingredients.length + (descriptors.length > 0 ? 1 : 0)} ingredients collected
                 </span>
               </div>
             </div>
           </div>
 
-          <div className="lg:w-2/3">
-            <h2 className="text-2xl font-bold mb-4 text-center text-slate-800">
-              <i className="fas fa-heart text-pink-500 mr-3"></i>
+          {/* Descriptors */}
+          <div>
+            <h2 className="text-2xl font-bold mb-6 text-slate-800 flex items-center gap-3">
+              <Heart className="w-6 h-6 text-pink-500" />
               Descriptors
             </h2>
-            <div className="bg-slate-100/70 p-6 rounded-lg border-2 border-dashed border-slate-300/80 min-h-[20rem]">
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+            <div className="bg-slate-50 rounded-xl p-6 min-h-80">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {[
                   'Smart', 'Caring', 'Loyal', 'Funny',
                   'Patient', 'Brave', 'Creative', 'Thoughtful',
@@ -195,13 +206,12 @@ export default function PaletteStage({
                           : [...descriptors, descriptor];
                         onUpdateDescriptors(newDescriptors);
                       }}
-                      className={`px-3 py-2 rounded-full text-sm font-medium transition-all duration-200 text-center ${
+                      className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                         isSelected
-                          ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md transform scale-105'
-                          : 'bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 border border-indigo-200 hover:from-indigo-200 hover:to-purple-200 hover:shadow-sm'
+                          ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-md transform scale-105'
+                          : 'bg-white text-slate-700 border border-slate-200 hover:border-blue-300 hover:bg-blue-50'
                       }`}
                     >
-                      {isSelected && <i className="fas fa-check mr-1"></i>}
                       {descriptor}
                     </button>
                   );
@@ -212,20 +222,21 @@ export default function PaletteStage({
         </div>
       </div>
 
-      <div className="flex justify-center items-center gap-6 mt-8">
+      {/* Navigation */}
+      <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mt-12">
         <Button
           onClick={onBack}
-          variant="secondary"
-          className="bg-slate-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-slate-700 transition-all"
+          variant="outline"
+          className="px-8 py-3 text-slate-600 border-slate-300 hover:bg-slate-50"
         >
-          <i className="fas fa-arrow-left mr-2"></i>Back
+          Back
         </Button>
         <Button
           onClick={onContinue}
           disabled={ingredients.length === 0}
-          className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold py-3 px-12 rounded-lg shadow-lg hover:from-indigo-700 hover:to-purple-700 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-12 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg transition-all transform hover:scale-105 disabled:opacity-50 disabled:transform-none"
         >
-          <i className="fas fa-arrow-right mr-2"></i>Craft
+          Continue to Craft
         </Button>
       </div>
     </div>
