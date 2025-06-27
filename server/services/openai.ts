@@ -59,7 +59,7 @@ Please know that you are seen, you are appreciated, and you are loved more deepl
 With all my love,
 [Your name]`;
 
-// Set to true to use dummy data when OpenAI is not available
+// Set to false to use real OpenAI when API key is available
 const USE_DUMMY_DATA = !openai;
 
 export interface GeneratedPrompt {
