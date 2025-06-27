@@ -11,10 +11,8 @@ import {
   Music,
   Image,
   Headphones,
-  HelpCircle
 } from 'lucide-react';
-import { DirectionArrow } from "@/components/ui/direction-arrow";
-import { GuidedTour } from "@/components/ui/guided-tour";
+import NavigationArrows from "@/components/NavigationArrows";
 
 /* -------------------------------------------------
    Progress Stepper
@@ -641,8 +639,6 @@ const DeliveryOptions = () => {
    Main Component
 -------------------------------------------------- */
 export default function AudioHugPage() {
-  const [showTour, setShowTour] = useState(false);
-  
   const soulHugMessage = `Dear Sarah,
 
 I've been thinking about you today and wanted to reach out with a message from my heart to yours. Your kindness has been such a light in my life, and I wanted you to know how deeply appreciated you are.
@@ -652,51 +648,6 @@ The way you listen with such genuine care, how you always seem to know exactly w
 You deserve all the love and happiness in the world, and I hope this message serves as a gentle reminder of how wonderful you are.
 
 With love and gratitude`;
-
-  const tourSteps = [
-    {
-      targetId: "progress-stepper",
-      title: "Progress Tracker",
-      content: "This shows your current stage in the Soul Hug creation process.",
-      direction: "down" as const,
-      placement: "bottom" as const
-    },
-    {
-      targetId: "voice-recorder",
-      title: "Voice Recording",
-      content: "Record your message in your own voice for a personal touch.",
-      direction: "right" as const,
-      placement: "left" as const
-    },
-    {
-      targetId: "ai-voice-generator",
-      title: "AI Voice Generation",
-      content: "Let AI narrate your message with natural, expressive voices.",
-      direction: "left" as const,
-      placement: "right" as const
-    },
-    {
-      targetId: "audio-mixer",
-      title: "Background Music",
-      content: "Add ambient music to enhance the emotional impact.",
-      direction: "right" as const,
-      placement: "left" as const
-    },
-    {
-      targetId: "image-picker",
-      title: "Cover Image",
-      content: "Choose a beautiful image to accompany your Soul Hug.",
-      direction: "left" as const,
-      placement: "right" as const
-    },
-    {
-      targetId: "delivery-options",
-      title: "Share Your Hug",
-      content: "Send your Soul Hug to your loved ones via link or QR code.",
-      direction: "up" as const,
-      placement: "top" as const
-    }
-  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-100 via-blue-50 to-pink-100 font-sans"> {/* Added font-sans */}
@@ -711,13 +662,6 @@ With love and gratitude`;
           <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-6 border border-purple-100 shadow-inner"> {/* Added shadow-inner */}
             <p className="text-gray-700 whitespace-pre-line leading-relaxed font-medium text-lg">{soulHugMessage}</p> {/* Increased text size */}
           </div>
-          <DirectionArrow 
-            direction="down" 
-            className="absolute bottom-2 left-1/2 transform -translate-x-1/2"
-            color="text-purple-500"
-            size="md"
-            label="Your message"
-          />
         </section>
 
         <div className="space-y-10"> {/* Increased space between sections */}
@@ -729,13 +673,6 @@ With love and gratitude`;
             </div>
             <p className="text-gray-600 mb-6 text-lg">Record your message in your own voice to add a personal touch and authentic emotion.</p> {/* Enhanced description */}
             <SoulHugRecorder />
-            <DirectionArrow 
-              direction="right" 
-              className="absolute -right-10 top-1/2 transform -translate-y-1/2"
-              color="text-purple-500"
-              size="md"
-              tooltip="Record your voice"
-            />
           </section>
 
           {/* AI Voice Generation */}
@@ -746,13 +683,6 @@ With love and gratitude`;
             </div>
             <p className="text-gray-600 mb-6 text-lg">Let AI narrate your message with natural, expressive voices. Preview options available!</p>
             <AIVoiceGenerator text={soulHugMessage} />
-            <DirectionArrow 
-              direction="left" 
-              className="absolute -left-10 top-1/2 transform -translate-y-1/2"
-              color="text-blue-500"
-              size="md"
-              tooltip="Generate AI voice"
-            />
           </section>
 
           {/* Background Music */}
@@ -763,13 +693,6 @@ With love and gratitude`;
             </div>
             <p className="text-gray-600 mb-6 text-lg">Add ambient music to enhance the emotional impact and set the perfect mood.</p>
             <AudioHugMixer />
-            <DirectionArrow 
-              direction="right" 
-              className="absolute -right-10 top-1/2 transform -translate-y-1/2"
-              color="text-indigo-500"
-              size="md"
-              tooltip="Add background music"
-            />
           </section>
 
           {/* Cover Image */}
@@ -780,13 +703,6 @@ With love and gratitude`;
             </div>
             <p className="text-gray-600 mb-6 text-lg">Choose a beautiful image to accompany your Soul Hug, making it visually appealing.</p>
             <ImagePicker />
-            <DirectionArrow 
-              direction="left" 
-              className="absolute -left-10 top-1/2 transform -translate-y-1/2"
-              color="text-green-500"
-              size="md"
-              tooltip="Select a cover image"
-            />
           </section>
 
           {/* Share Your Hug */}
@@ -797,31 +713,11 @@ With love and gratitude`;
             </div>
             <p className="text-gray-600 mb-6 text-lg">Send your Soul Hug to your loved ones easily via a shareable link or QR code.</p>
             <DeliveryOptions />
-            <DirectionArrow 
-              direction="up" 
-              className="absolute -bottom-10 left-1/2 transform -translate-x-1/2"
-              color="text-pink-500"
-              size="md"
-              tooltip="Share your Soul Hug"
-            />
           </section>
         </div>
+
+        <NavigationArrows back="/creative-flow" />
       </div>
-
-      <button 
-        onClick={() => setShowTour(true)}
-        className="fixed bottom-4 right-4 bg-indigo-600 text-white rounded-full p-3 shadow-lg hover:bg-indigo-700 transition-colors"
-        title="Show Guide"
-      >
-        <HelpCircle className="h-6 w-6" />
-      </button>
-
-      <GuidedTour 
-        steps={tourSteps} 
-        isOpen={showTour}
-        onOpenChange={setShowTour}
-        storageKey="audio-hug-tour-completed"
-      />
     </div>
   );
 }

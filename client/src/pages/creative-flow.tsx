@@ -6,8 +6,7 @@ import PaletteStage from "@/components/creative-flow/palette-stage";
 import LoomStage from "@/components/creative-flow/loom-stage";
 import IngredientModal from "@/components/creative-flow/ingredient-modal";
 import AudioHug from "@/pages/audio-hug";
-import { DirectionArrow } from "@/components/ui/direction-arrow";
-import { GuidedTour } from "@/components/ui/guided-tour";
+import NavigationArrows from "@/components/NavigationArrows";
 
 import { auth } from "@/lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
@@ -28,7 +27,6 @@ export default function CreativeFlow() {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [currentPrompt, setCurrentPrompt] = useState("");
-  const [showTour, setShowTour] = useState(false);
 
   // Firebase Auth state monitoring
   useEffect(() => {
@@ -169,58 +167,27 @@ export default function CreativeFlow() {
     }
   };
 
-  const tourSteps = [
-    {
-      targetId: "stage-navigation",
-      title: "Navigation",
-      content: "Track your progress through the four stages of creating a Soul Hug.",
-      direction: "down" as const,
-      placement: "bottom" as const
-    },
-    {
-      targetId: "anchor-stage",
-      title: "Define Your Hug",
-      content: "Start by defining who your message is for and how you want them to feel.",
-      direction: "up" as const,
-      placement: "top" as const
-    }
-  ];
-
   return (
     <div className="text-slate-800 min-h-screen p-4">
-      <div id="stage-navigation" className="relative">
+      <div id="stage-navigation">
         <StageNavigation 
           currentStage={currentStage} 
           onStageClick={setCurrentStage}
-        />
-        <DirectionArrow 
-          direction="down" 
-          className="absolute top-20 left-1/2 transform -translate-x-1/2"
-          color="text-indigo-500"
-          size="md"
-          label="Follow the steps"
-          tooltip="Complete each stage to create your Soul Hug"
         />
       </div>
       
       <div className="flex items-center justify-center">
         {currentStage === 'intention' && (
-          <div id="anchor-stage" className="relative">
+          <div id="anchor-stage">
             <AnchorStage 
               onSubmit={handleAnchorSubmit}
               isLoading={isLoading}
-            />
-            <DirectionArrow 
-              direction="up" 
-              className="absolute -bottom-10 left-1/2 transform -translate-x-1/2"
-              color="text-indigo-500"
-              label="Start here"
             />
           </div>
         )}
         
         {currentStage === 'reflection' && state.session && (
-          <div id="palette-stage" className="relative">
+          <div id="palette-stage">
             <PaletteStage
               session={state.session}
               onOpenModal={openModal}
@@ -234,18 +201,11 @@ export default function CreativeFlow() {
               onBack={() => setCurrentStage('intention')}
               onContinue={() => setCurrentStage('expression')}
             />
-            <DirectionArrow 
-              direction="left" 
-              className="absolute top-1/2 -left-10 transform -translate-y-1/2"
-              color="text-indigo-500"
-              label="Add ingredients"
-              tooltip="Drag prompts or write your own stories"
-            />
           </div>
         )}
         
         {currentStage === 'expression' && state.session && (
-          <div id="loom-stage" className="relative">
+          <div id="loom-stage">
             <LoomStage
               session={state.session}
               onBack={() => setCurrentStage('reflection')}
@@ -256,26 +216,12 @@ export default function CreativeFlow() {
               onContinueToAudio={() => setCurrentStage('audio')}
               isLoading={isLoading}
             />
-            <DirectionArrow 
-              direction="right" 
-              className="absolute top-1/3 -right-10 transform -translate-y-1/2"
-              color="text-indigo-500"
-              label="Craft message"
-              tooltip="Write your message or let AI help you"
-            />
           </div>
         )}
         
         {currentStage === 'audio' && state.session && (
           <div id="audio-stage" className="relative w-full">
             <AudioHug />
-            <DirectionArrow 
-              direction="up" 
-              className="absolute top-24 right-10"
-              color="text-indigo-500"
-              label="Audio options"
-              tooltip="Record your voice or use AI narration"
-            />
           </div>
         )}
       </div>
@@ -296,22 +242,7 @@ export default function CreativeFlow() {
         </div>
       )}
 
-      <GuidedTour 
-        steps={tourSteps} 
-        isOpen={showTour}
-        onOpenChange={setShowTour}
-        storageKey="creative-flow-tour-completed"
-      />
-
-      <button 
-        onClick={() => setShowTour(true)}
-        className="fixed bottom-4 right-4 bg-indigo-600 text-white rounded-full p-3 shadow-lg hover:bg-indigo-700 transition-colors"
-        title="Show Guide"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      </button>
+      <NavigationArrows back="/" next={currentStage === 'audio' ? "/my-hugs" : undefined} />
     </div>
   );
 }
