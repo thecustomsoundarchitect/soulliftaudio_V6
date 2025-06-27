@@ -6,7 +6,8 @@ import PaletteStage from "@/components/creative-flow/palette-stage";
 import LoomStage from "@/components/creative-flow/loom-stage";
 import IngredientModal from "@/components/creative-flow/ingredient-modal";
 import AudioHug from "@/pages/audio-hug";
-import NavigationArrows from "@/components/NavigationArrows";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { Link } from "wouter";
 
 import { auth } from "@/lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
@@ -167,6 +168,14 @@ export default function CreativeFlow() {
     }
   };
 
+  const handleContinueToAudio = () => {
+    // Save session data to localStorage for the craft page
+    if (state.session) {
+      localStorage.setItem('creativeFlowSession', JSON.stringify(state.session));
+    }
+    setCurrentStage('audio');
+  };
+
   return (
     <div className="text-slate-800 min-h-screen p-4">
       <div id="stage-navigation">
@@ -213,7 +222,7 @@ export default function CreativeFlow() {
               onAIWeave={handleAIWeave}
               onAIStitch={handleAIStitch}
               onUpdateMessage={(message) => updateSession({ finalMessage: message })}
-              onContinueToAudio={() => setCurrentStage('audio')}
+              onContinueToAudio={handleContinueToAudio}
               isLoading={isLoading}
             />
           </div>
@@ -242,7 +251,16 @@ export default function CreativeFlow() {
         </div>
       )}
 
-      <NavigationArrows back="/" next={currentStage === 'audio' ? "/my-hugs" : undefined} />
+      {/* Navigation */}
+      <div className="flex justify-between items-center mt-8 px-6">
+        <Link href="/" className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition-colors">
+          <ArrowLeft className="w-4 h-4" />
+          Back
+        </Link>
+        <Link href="/craft-soul-hug" className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition-colors">
+          Next <ArrowRight className="w-4 h-4" />
+        </Link>
+      </div>
     </div>
   );
 }

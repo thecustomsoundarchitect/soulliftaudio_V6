@@ -182,6 +182,15 @@ export default function LoomStage({
     }
   };
 
+  const handleContinueToAudio = () => {
+    // Save session data to localStorage for the craft page
+    localStorage.setItem('creativeFlowSession', JSON.stringify({
+      ...session,
+      finalMessage: message
+    }));
+    onContinueToAudio();
+  };
+
   return (
     <div className="w-full max-w-6xl mx-auto glass-morphism rounded-2xl shadow-2xl p-6 sm:p-8 fade-in">
       <div className="text-center mb-8">
@@ -472,18 +481,17 @@ export default function LoomStage({
         </Button>
         <Button
           onClick={() => {
-            console.log('Continue to Audio Hug button clicked');
+            console.log('Continue to Craft Soul Hug button clicked');
             if (message.trim()) {
-              onUpdateMessage(message);
-              onContinueToAudio();
+              handleContinueToAudio();
             } else {
-              alert('Please create a message before continuing to audio.');
+              alert('Please create a message before continuing.');
             }
           }}
           disabled={!message.trim()}
           className="bg-gradient-to-r from-teal-600 to-indigo-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:from-teal-700 hover:to-indigo-700 transition-transform transform hover:scale-105 disabled:opacity-50"
         >
-          <i className="fas fa-microphone mr-2"></i>Continue to Audio Hug
+          <i className="fas fa-arrow-right mr-2"></i>Continue to Craft
         </Button>
       </div>
     </div>

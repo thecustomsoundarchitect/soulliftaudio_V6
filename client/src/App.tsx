@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import HomePage from "@/pages/home";
 import CreativeFlow from "@/pages/creative-flow";
+import CraftSoulHug from "@/pages/craft-soul-hug";
 import AudioHug from "@/pages/audio-hug";
 import AudioHugTest from "@/pages/audio-hug-test";
 import AudioHugTestFork from "@/pages/audio-hug-test-fork";
@@ -22,6 +23,7 @@ function Router() {
     <Switch>
       <Route path="/" component={HomePage} />
       <Route path="/creative-flow" component={CreativeFlow} />
+      <Route path="/craft-soul-hug" component={CraftSoulHug} />
       <Route path="/audio-hug" component={AudioHug} />
       <Route path="/audio-hug-test" component={AudioHugTest} />
       <Route path="/audio-hug-test-fork" component={AudioHugTestFork} />

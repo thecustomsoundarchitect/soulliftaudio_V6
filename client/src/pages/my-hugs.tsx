@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { auth, db } from "@/lib/firebase";
 import { collection, getDocs, query, where, deleteDoc, doc } from "firebase/firestore";
 import { useLocation, Link } from "wouter";
-// QR Code functionality - will implement simple sharing instead
-// import { QRCodeSVG } from "qrcode.react";
+import { ArrowLeft } from "lucide-react";
 
 interface SoulHug {
   id: string;
@@ -296,6 +295,14 @@ export default function MyHugs() {
           ))}
         </div>
       )}
+
+      {/* Navigation */}
+      <div className="flex justify-start mt-8">
+        <Link href="/audio-hug" className="flex items-center gap-2 text-white/70 hover:text-white transition-colors">
+          <ArrowLeft className="w-4 h-4" />
+          Back
+        </Link>
+      </div>
     </div>
   );
 }

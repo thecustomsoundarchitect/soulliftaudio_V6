@@ -11,8 +11,10 @@ import {
   Music,
   Image,
   Headphones,
+  ArrowLeft,
+  ArrowRight,
 } from 'lucide-react';
-import NavigationArrows from "@/components/NavigationArrows";
+import { Link } from "wouter";
 
 /* -------------------------------------------------
    Progress Stepper
@@ -716,7 +718,16 @@ With love and gratitude`;
           </section>
         </div>
 
-        <NavigationArrows back="/creative-flow" />
+        {/* Navigation */}
+        <div className="flex justify-between items-center mt-8">
+          <Link href="/craft-soul-hug" className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition-colors">
+            <ArrowLeft className="w-4 h-4" />
+            Back
+          </Link>
+          <Link href="/my-hugs" className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition-colors">
+            Next <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
       </div>
     </div>
   );
