@@ -138,7 +138,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const response = await fetch('https://api.openai.com/v1/audio/speech', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${process.env.VITE_OPENAI_API_KEY}`,
+          'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
